@@ -55,3 +55,4 @@ while True:
         print("~-~-~-~-~-~-~-~Opção inválida~-~-~-~-~-~-~-~")
         print("As opções são:")
         return_menu()
+        print()
