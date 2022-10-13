@@ -1,15 +1,20 @@
 #usando a https://jsonplaceholder.typicode.com/users/ listar usuarios, id e nome
 import requests
 api = "https://jsonplaceholder.typicode.com/users/"
+api_taks = "https://jsonplaceholder.typicode.com/todos/"
 
 def return_menu():
     print()
     print("1 - Listar usuários")
-    print("2 - Buscar usuário")
-    print("3 - Inserir usuário")
-    print("4 - Alterar usuário")
-    print("5 - Deletar usuário")
-    print("6 - Sair do programa")
+    print("2 - Listar tarefas do usuário")
+    print("3 - Buscar usuário")
+    print("4 - Inserir usuário")
+    print("5 - Alterar usuário")
+    print("6 - Deletar usuário")
+    print("7 - Criar tarefa")
+    print("8 - Atualizar tarefa")
+    print("9 - Deletar tarefas")
+    print("10 - Sair do programa")
     print()
     return 0
 
@@ -26,6 +31,22 @@ def listar_usuarios():
     else:
         print("Erro na requisição, possivelmente o usuá1rio não existe")
     return 0
+
+def listar_tarefas():
+    id = input("Digite o id do usuário: ")
+    response = requests.get(api + id + "/todos")
+    if response.status_code == 200:
+        tarefas = response.json()
+        for tarefa in tarefas:
+            print("Id: ", tarefa["id"])
+            print("Título: ", tarefa["title"])
+            print("Status: ", tarefa["completed"])
+            print()
+           
+    else:
+        print("Erro na requisição, possivelmente o usuário não existe")
+    return 0
+
 
 def buscar_usuario():
     id = input("Digite o id do usuário: ")
@@ -97,5 +118,74 @@ def deletar_usuario():
             print()
     else:
         print("Usuário não encontrado")
+        print()
+    return 0
+
+def criar_task():
+    print("Criar tarefa")
+    id = input("Digite o id do usuário: ")
+    response = requests.get(api + id)
+    if response.status_code == 200:
+        user =response.json()
+        print("Usuario com o nome: [", user["name"], "] encontrado")
+        print("username: ", user["username"] + ", email: ", user["email"])
+        print()
+        print("Digite os dados da tarefa")
+        titulo = input("Digite o título da tarefa: ")
+        status = input("Digite o status da tarefa: ")
+        response = requests.post(api + id + "/todos", data = {"title": titulo, "completed": status})
+        print()
+        print(response.status_code)
+        print()
+    else:
+        print("Usuário não encontrado")
+        print()
+    return 0
+
+def atualizar_taks():
+    print("Atualizar tarefa")
+    id = input("Digite o id do usuário: ")
+    response = requests.get(api + id)
+    if response.status_code == 200:
+        user =response.json()
+        print("Usuario com o nome: [", user["name"], "] encontrado")
+        print("username: ", user["username"] + ", email: ", user["email"])
+        print()
+        print("Digite os dados da tarefa")
+        titulo = input("Digite o título da tarefa: ")
+        status = input("Digite o status da tarefa: ")
+        response = requests.put(api + id + "/todos", data = {"title": titulo, "completed": status})
+        print()
+        print(response.status_code)
+        print()
+    else:
+        print("Usuário não encontrado")
+        print()
+    return 0
+
+def deletar_task():
+    print("Deletar tarefa")
+    id_taks = input("Digite o id da tarefa: ")
+    response = requests.get(api_taks + id_taks)
+    if response.status_code == 200:
+        taks =response.json()
+        print("Tarefa com o título: [", taks["title"], "] encontrada")
+        print("Status: ", taks["completed"])
+        print()
+        print("Deseja realmente deletar a tarefa?")
+        opcao = input("Digite 1 para sim e 2 para não: ")
+        if opcao == "1":
+            response = requests.delete(api_taks + id_taks)
+            print()
+            print(response.status_code)
+            print()
+        elif opcao == "2":
+            print("Tarefa não deletada")
+            print()
+        else:
+            print("Opção inválida")
+            print()
+    else:
+        print("Tarefa não encontrada")
         print()
     return 0
