@@ -1,47 +1,42 @@
-from defs import *
+import defs as d
+
+users = d.listar_usuarios()
 
 print("Bem vindo a API Json Placeholder")
 
 #Menu
-return_menu()
+d.return_menu()
 
 while True:
     opcao = input("Digite a opção desejada: ")
     if opcao == "1":
         print("Listar usuários")
         print()
-        listar_usuarios()
+        d.listar_usuarios(users)
         print()
         print("Fim da listagem")
 
     elif opcao == "2":
         print("Listar posts")
         print()
-        listar_tarefas()
+        d.listar_tarefas(users)
         print()
         print("Fim da listagem")
     elif opcao == "3":
         print("Buscar usuário")
-        buscar_usuario()
+        d.buscar_usuario(users)
         print("Fim da listagem")
     elif opcao == "4":
-        inserir_usuario()
+        d.inserir_usuario(users)
         print("Usuário inserido com sucesso")
-        return_menu()
+        d.return_menu()
     elif opcao == "5":
-        alterar_usuario()
-        return_menu()
+        d.alterar_usuario(users)
+        d.return_menu()
     elif opcao == "6":
-        deletar_usuario()
+        d.deletar_usuario(users)
 
-        return_menu()
-    elif opcao == "7":
-        criar_task()
-        return_menu()
-    elif opcao == "8":
-        atualizar_taks()
-    elif opcao == "9":
-        deletar_task()
+        d.return_menu()
     elif opcao == "10":
         print()
         print("Sair do programa")
@@ -54,5 +49,6 @@ while True:
     else:
         print("~-~-~-~-~-~-~-~Opção inválida~-~-~-~-~-~-~-~")
         print("As opções são:")
-        return_menu()
+        d.return_menu()
         print()
+

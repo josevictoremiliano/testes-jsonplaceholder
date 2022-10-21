@@ -1,7 +1,72 @@
-#usando a https://jsonplaceholder.typicode.com/users/ listar usuarios, id e nome
+# usando a https://jsonplaceholder.typicode.com/users/ listar usuarios, id e nome
 import requests
 api = "https://jsonplaceholder.typicode.com/users/"
 api_taks = "https://jsonplaceholder.typicode.com/todos/"
+
+
+class users:
+    def inserir_usuario():
+        print("Inserir usuário")
+        nome = input("Digite o nome do usuário: ")
+        username = input("Digite o nome de usuário: ")
+        email = input("Digite o email do usuário: ")
+
+        response = requests.post(
+            api, data={"name": nome, "username": username, "email": email})
+
+        return 0
+
+
+    def alterar_usuario():
+        print("Alterar usuário")
+        id = input("Digite o id do usuário: ")
+        response = requests.get(api + id)
+        if response.status_code == 200:
+
+            user = response.json()
+            print("Usuario com o nome: [", user["name"], "] encontrado")
+            print("username: ", user["username"] + ", email: ", user["email"])
+            print()
+            print("Digite os novos dados do usuário")
+            nome = input("Digite o nome do usuário: ")
+            username = input("Digite o username de usuário: ")
+            email = input("Digite o email do usuário: ")
+            response = requests.put(
+                api + id, data={"name": nome, "username": username, "email": email})
+            print()
+            print(response.status_code)
+            print()
+
+        return 0
+
+
+    def deletar_usuario():
+        print("Deletar usuário")
+        id = input("Digite o id do usuário: ")
+        response = requests.get(api + id)
+        if response.status_code == 200:
+            user = response.json()
+            print("Usuario com o nome: [", user["name"], "] encontrado")
+            print("username: ", user["username"] + ", email: ", user["email"])
+            print()
+            print("Deseja realmente deletar o usuário?")
+            opcao = input("Digite 1 para sim e 2 para não: ")
+            if opcao == "1":
+                response = requests.delete(api + id)
+                print()
+                print(response.status_code)
+                print()
+            elif opcao == "2":
+                print("Usuário não deletado")
+                print()
+            else:
+                print("Opção inválida")
+                print()
+        else:
+            print("Usuário não encontrado")
+            print()
+        return 0
+
 
 def return_menu():
     print()
@@ -18,19 +83,21 @@ def return_menu():
     print()
     return 0
 
+
 def listar_usuarios():
     response = requests.get(api)
 
-    #listar usuários somente o nome e id
+    # listar usuários somente o nome e id
     response = requests.get(api)
     if response.status_code == 200:
         usuarios = response.json()
         for usuario in usuarios:
             print(usuario["id"], usuario["name"])
-            
+
     else:
         print("Erro na requisição, possivelmente o usuá1rio não existe")
     return 0
+
 
 def listar_tarefas():
     id = input("Digite o id do usuário: ")
@@ -42,7 +109,7 @@ def listar_tarefas():
             print("Título: ", tarefa["title"])
             print("Status: ", tarefa["completed"])
             print()
-           
+
     else:
         print("Erro na requisição, possivelmente o usuário não existe")
     return 0
@@ -57,29 +124,33 @@ def buscar_usuario():
         print("Nome: ", usuario["name"])
         print("Nome de usuário: ", usuario["username"])
         print("Email: ", usuario["email"])
-        print("Endereço: ", usuario["address"]["street"] + ", " + usuario["address"]["suite"] + ", " + usuario["address"]["city"] + ", " + usuario["address"]["zipcode"])
+        print("Endereço: ", usuario["address"]["street"] + ", " + usuario["address"]
+              ["suite"] + ", " + usuario["address"]["city"] + ", " + usuario["address"]["zipcode"])
         print()
     else:
         print("Erro na requisição, possivelmente o usuário não existe")
     return 0
+
 
 def inserir_usuario():
     print("Inserir usuário")
     nome = input("Digite o nome do usuário: ")
     username = input("Digite o nome de usuário: ")
     email = input("Digite o email do usuário: ")
-        
-    response = requests.post(api, data = {"name": nome, "username": username, "email": email})
+
+    response = requests.post(
+        api, data={"name": nome, "username": username, "email": email})
 
     return 0
+
 
 def alterar_usuario():
     print("Alterar usuário")
     id = input("Digite o id do usuário: ")
     response = requests.get(api + id)
     if response.status_code == 200:
-        
-        user =response.json()
+
+        user = response.json()
         print("Usuario com o nome: [", user["name"], "] encontrado")
         print("username: ", user["username"] + ", email: ", user["email"])
         print()
@@ -87,19 +158,21 @@ def alterar_usuario():
         nome = input("Digite o nome do usuário: ")
         username = input("Digite o username de usuário: ")
         email = input("Digite o email do usuário: ")
-        response = requests.put(api + id, data = {"name": nome, "username": username, "email": email})
+        response = requests.put(
+            api + id, data={"name": nome, "username": username, "email": email})
         print()
         print(response.status_code)
         print()
 
     return 0
 
+
 def deletar_usuario():
     print("Deletar usuário")
     id = input("Digite o id do usuário: ")
     response = requests.get(api + id)
     if response.status_code == 200:
-        user =response.json()
+        user = response.json()
         print("Usuario com o nome: [", user["name"], "] encontrado")
         print("username: ", user["username"] + ", email: ", user["email"])
         print()
@@ -121,19 +194,21 @@ def deletar_usuario():
         print()
     return 0
 
+
 def criar_task():
     print("Criar tarefa")
     id = input("Digite o id do usuário: ")
     response = requests.get(api + id)
     if response.status_code == 200:
-        user =response.json()
+        user = response.json()
         print("Usuario com o nome: [", user["name"], "] encontrado")
         print("username: ", user["username"] + ", email: ", user["email"])
         print()
         print("Digite os dados da tarefa")
         titulo = input("Digite o título da tarefa: ")
         status = input("Digite o status da tarefa: ")
-        response = requests.post(api + id + "/todos", data = {"title": titulo, "completed": status})
+        response = requests.post(
+            api + id + "/todos", data={"title": titulo, "completed": status})
         print()
         print(response.status_code)
         print()
@@ -142,12 +217,13 @@ def criar_task():
         print()
     return 0
 
+
 def atualizar_taks():
     print("Atualizar tarefa")
     id = input("Digite o id da tarefa: ")
     response = requests.get(api_taks + id)
     if response.status_code == 200:
-        task =response.json()
+        task = response.json()
         print("Tarefa com o título: [", task["title"], "] encontrada")
         print("Status: ", task["completed"])
         print()
@@ -155,7 +231,8 @@ def atualizar_taks():
         print("Digite os dados da tarefa")
         titulo = input("Digite o título da tarefa: ")
         status = input("Digite o status da tarefa: ")
-        response = requests.put(api_taks + id, data = {"title": titulo, "completed": status})
+        response = requests.put(
+            api_taks + id, data={"title": titulo, "completed": status})
         print()
         print(response.status_code)
         print()
@@ -164,12 +241,13 @@ def atualizar_taks():
         print()
     return 0
 
+
 def deletar_task():
     print("Deletar tarefa")
     id_taks = input("Digite o id da tarefa: ")
     response = requests.get(api_taks + id_taks)
     if response.status_code == 200:
-        taks =response.json()
+        taks = response.json()
         print("Tarefa com o título: [", taks["title"], "] encontrada")
         print("Status: ", taks["completed"])
         print()
