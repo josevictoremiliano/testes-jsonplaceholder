@@ -1,7 +1,5 @@
-from urllib import response
 import requests
 global api_url
-global api_url_todos
 api_url = "https://jsonplaceholder.typicode.com/users/"
 
 class users:
@@ -10,14 +8,8 @@ class users:
 
     
     def Create_User(self, name, username, email):
-        print("Inserir usuário")
-        name = input("Digite o nome do usuário: ")
-        username = input("Digite o nome de usuário: ")
-        email = input("Digite o email do usuário: ")
-            
-        response = requests.post(api_url, data = {"name": name, "username": username, "email": email})
+        return requests.post(api_url, data = {"name": name, "username": username, "email": email}).status_code
 
-        return 
     
     def Update_User(self, id, name, username, email):
         return requests.put(api_url + id, data={"name": name, "username": username, "email": email})
@@ -28,6 +20,7 @@ class users:
         if response.status_code == 200:
             requests.delete(api_url + id)
             print("Usuário deletado com sucesso")
+            print( response.status_code)
         else:
             print("Usuário não encontrado")
         

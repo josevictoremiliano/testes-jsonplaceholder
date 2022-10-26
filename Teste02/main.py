@@ -19,9 +19,15 @@ class execute:
                 name = input('Digite o nome do usuário: ')
                 username = input('Qual username: ')
                 email = input('Agora digite o email: ')
-                print('Usuário criado! ', users.create_user(self, name, username, email))
+                users.Create_User(self, name, username, email)
+                print("Usuário criado com sucesso")
             elif opcao == "1":
-                users.Update_User(self)
+                id = input("Digite o id do usuário: ")
+                name = input('Digite o nome do usuário: ')
+                username = input('Qual username: ')
+                email = input('Agora digite o email: ')
+                users.Update_User(self, id, name, username, email)
+                print("Usuário atualizado com sucesso")
             elif opcao == "2":
                 users.Delete_User(self)
             elif opcao == "3":
